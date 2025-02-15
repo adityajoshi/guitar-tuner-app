@@ -1,0 +1,23 @@
+<div class="guitar-and-notes">
+  <div class="left-buttons">
+    <div *ngFor="let stringNote of notes[0]" class="note-row">
+      <button class="note-button"
+              [class.active]="selectedNote === stringNote"
+              (click)="selectNote(stringNote)">
+        {{ stringNote }}
+      </button>
+    </div>
+  </div>
+
+  <img src="assets/guitar.png" alt="Guitar Image" class="guitar-image">
+
+  <div class="right-buttons">
+    <div *ngFor="let stringNote of notes[1]" class="note-row">
+      <button class="note-button"
+              [class.active]="selectedNote === stringNote"
+              (click)="selectNote(stringNote)">
+        {{ stringNote }}
+      </button>
+    </div>
+  </div>
+</div>

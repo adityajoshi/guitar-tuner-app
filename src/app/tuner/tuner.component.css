@@ -1,0 +1,126 @@
+.tuner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: sans-serif;
+    padding: 20px;
+    background-color: #f0f0f0; /* Light gray background */
+  }
+  
+  .tuning-method {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .tuning-method button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #fff;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #333; /* Dark gray text */
+  }
+  
+  .tuning-method button.active {
+    background-color: #007bff; /* Blue for active button */
+    color: white;
+  }
+  
+  /* .note-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Spacing between rows */
+    /* margin-bottom: 20px; */
+  /* } */
+
+  .note-buttons {
+    display: flex;
+    flex-direction: column; /* Arrange buttons in columns */
+    gap: 10px;
+  }
+  
+  /* .note-row {
+    display: flex; */
+    /* gap: 10px; Spacing between buttons */
+  /* } */
+
+  .note-row {
+    display: contents; /* Key change: make the row disappear from the layout */
+  }
+  
+  .note-button {
+    width: 40px; /* Adjust button width as needed */
+    height: 40px; /* Adjust button height as needed */
+  }
+  
+  .note-button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .features {
+    margin-bottom: 20px;
+  }
+  
+  .loop-toggle {
+    display: flex;
+    align-items: center;
+  }
+  
+  .tuning-selection {
+    text-align: center;
+  }
+  
+  .tuning-selection p {
+    margin-bottom: 10px;
+  }
+  
+  .tuning-option {
+    padding: 10px 20px;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #333;
+  }
+  
+  .tuning-option.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .tuning-name {
+    display: block; /* Make tuning name appear below */
+    font-size: 0.8em;
+    color: #666; /* Lighter gray */
+  }
+
+  .guitar-and-notes {
+    display: grid;
+    grid-template-columns: auto auto 1fr; /* Three columns: 1fr, auto, 1fr */
+    align-items: center; /* Vertically center content */
+    gap: 20px; /* Space between columns */
+    margin-bottom: 20px;
+  }
+
+  .guitar-image {
+    width: 250px;
+    height: 450px;
+  }
+
+  .right-buttons {
+    display: flex;
+    flex-direction: column; /* Arrange buttons vertically */
+    gap: 20px;
+    justify-self: start;
+    transform: translateY(-60px);
+  }
+
+  .left-buttons {
+    display: flex;
+    flex-direction: column; /* Arrange buttons vertically */
+    gap: 20px;
+    justify-self: end;
+    transform: translateY(-60px);
+  }
