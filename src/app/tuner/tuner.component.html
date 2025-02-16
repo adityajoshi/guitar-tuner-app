@@ -1,23 +1,28 @@
-<div class="guitar-and-notes">
-  <div class="left-buttons">
-    <div *ngFor="let stringNote of notes[0]" class="note-row">
-      <button class="note-button"
-              [class.active]="selectedNote === stringNote"
-              (click)="selectNote(stringNote)">
-        {{ stringNote }}
-      </button>
+<div class="tuner-container">
+  <h1>Acoustic Guitar Tuner</h1>
+
+  <div class="tuning-method">
+    <button [class.active]="tuningMethod === 'byEar'" (click)="setTuningMethod('byEar')">
+      <i class="fas fa-headphones"></i> Tuning By Ear
+    </button>
+    <!-- <button [class.active]="tuningMethod === 'auto'" (click)="setTuningMethod('auto')">
+      <i class="fas fa-microphone"></i> Auto
+    </button> -->
+  </div>
+
+  <div class="note-buttons-linear">
+    <div class="note-buttons-linear">
+      <div *ngFor="let note of notes" class="note-container">
+        <button class="note-button"
+                [class.active]="selectedNote === note"
+                (click)="selectNote(note)">
+          {{ note }}
+        </button>
+      </div>
     </div>
   </div>
 
-  <img src="assets/guitar.png" alt="Guitar Image" class="guitar-image">
-
-  <div class="right-buttons">
-    <div *ngFor="let stringNote of notes[1]" class="note-row">
-      <button class="note-button"
-              [class.active]="selectedNote === stringNote"
-              (click)="selectNote(stringNote)">
-        {{ stringNote }}
-      </button>
-    </div>
-  </div>
+  <div class="tuning-selection">
+    <label for="tuning">Selected Tuning</label>
+    <span id="tuning" class="tuning-display">Standard Tuning</span>  </div>
 </div>

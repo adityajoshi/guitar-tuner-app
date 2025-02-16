@@ -10,10 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class TunerComponent {
   tuningMethod: string = 'byEar'; // Default tuning method
-  notes: string[][] = [
-    ['D', 'A', 'E'],
-    ['G', 'B', 'Eh']
-  ];
+  notes: string[] = ['E','A','D','G', 'B', 'e'];
   selectedNote: string = '';
   selectedTuning: string = 'standard';
 
@@ -24,7 +21,7 @@ export class TunerComponent {
   }
 
   private loadAudioFiles() {
-    const notes = ['E', 'D', 'G', 'A', 'B', 'Eh']; // Notes for which you have audio files
+    const notes = ['E', 'D', 'G', 'A', 'B', 'e']; // Notes for which you have audio files
     notes.forEach(note => {
       this.audioFiles[note] = new Audio(`assets/${note}.ogg`);
     });
@@ -38,11 +35,22 @@ export class TunerComponent {
 
   selectNote(note: string) {
     this.selectedNote = note;
-    console.log('Selected note:', note);
 
     if (this.tuningMethod === 'byEar' && this.audioFiles[note]) {
-      console.log('Playing note:', note);
-      this.audioFiles[note].play();
+      const audio = this.audioFiles[note]; // Get the audio element
+
+      audio.play();
+      
+      // Add event listener for 'ended' event
+      audio.addEventListener('ended', () => {
+        this.selectedNote = ''; // Reset the selected note
+      }, { once: true }); // Important: Use { once: true } to remove listener after it fires
+
+      // Optional: Error handling
+      audio.addEventListener('error', (error) => {
+          console.error('Error playing sound:', error);
+          this.selectedNote = ''; // Reset on error as well
+      }, { once: true });
     }
   }
 
