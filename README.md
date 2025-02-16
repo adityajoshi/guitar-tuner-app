@@ -1,2 +1,0 @@
-# Guitar Tuner App
-
