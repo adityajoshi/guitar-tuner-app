@@ -1,0 +1,10 @@
+dist/**
+dist
+angular/**
+angular
+3rdpartylicenses.txt
+node_modules/**
+node_modules
+prerendered-routes.json
+.angular/*
+.angular
