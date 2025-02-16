@@ -16,6 +16,7 @@
             "outputPath": "dist/guitar-tuner-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "baseHref": "/guitar-tuner/",
             "polyfills": [
               "zone.js"
             ],
