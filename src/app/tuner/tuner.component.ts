@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -8,49 +8,75 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./tuner.component.css'],
   imports: [FormsModule, CommonModule]
 })
-export class TunerComponent {
+export class TunerComponent implements OnDestroy {
   tuningMethod: string = 'byEar'; // Default tuning method
-  notes: string[] = ['E','A','D','G', 'B', 'e'];
+  readonly notes: string[] = ['E', 'A', 'D', 'G', 'B', 'e'];
   selectedNote: string = '';
   selectedTuning: string = 'standard';
 
   private audioFiles: { [note: string]: HTMLAudioElement } = {}; // Store audio elements
+  private currentAudio: HTMLAudioElement | null = null; // Track currently playing audio
+  private currentAudioListener: (() => void) | null = null; // Track listener to remove it
 
   constructor() {
     this.loadAudioFiles(); // Load audio files when the component initializes
   }
 
   private loadAudioFiles() {
-    const notes = ['E', 'D', 'G', 'A', 'B', 'e']; // Notes for which you have audio files
-    notes.forEach(note => {
-      this.audioFiles[note] = new Audio(`assets/${note}.ogg`);
+    this.notes.forEach(note => {
+      const filename = note === 'e' ? 'high_e' : note;
+      this.audioFiles[note] = new Audio(`assets/${filename}.ogg`);
     });
   }
 
-  
   setTuningMethod(method: string) {
+    this.stopCurrentAudio();
     this.tuningMethod = method;
     // Implement logic to switch between tuning methods (by ear/auto)
   }
 
   selectNote(note: string) {
+    if (this.tuningMethod === 'byEar' && this.audioFiles[note]) {
+      this.playNote(note);
+    }
+  }
+
+  private playNote(note: string) {
+    // Stop any currently playing audio
+    this.stopCurrentAudio();
+
+    const audio = this.audioFiles[note];
+    this.currentAudio = audio;
     this.selectedNote = note;
 
-    if (this.tuningMethod === 'byEar' && this.audioFiles[note]) {
-      const audio = this.audioFiles[note]; // Get the audio element
+    const onEnded = () => {
+      this.selectedNote = '';
+      this.currentAudio = null;
+      this.currentAudioListener = null;
+    };
 
-      audio.play();
-      
-      // Add event listener for 'ended' event
-      audio.addEventListener('ended', () => {
-        this.selectedNote = ''; // Reset the selected note
-      }, { once: true }); // Important: Use { once: true } to remove listener after it fires
+    this.currentAudioListener = onEnded;
+    audio.addEventListener('ended', onEnded, { once: true });
 
-      // Optional: Error handling
-      audio.addEventListener('error', (error) => {
-          console.error('Error playing sound:', error);
-          this.selectedNote = ''; // Reset on error as well
-      }, { once: true });
+    audio.currentTime = 0; // Reset to start
+    audio.play().catch(error => {
+      console.error('Error playing sound:', error);
+      this.stopCurrentAudio(); // Reset on error
+    });
+  }
+
+  private stopCurrentAudio() {
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio.currentTime = 0;
+
+      if (this.currentAudioListener) {
+        this.currentAudio.removeEventListener('ended', this.currentAudioListener);
+        this.currentAudioListener = null;
+      }
+
+      this.currentAudio = null;
+      this.selectedNote = '';
     }
   }
 
@@ -59,11 +85,7 @@ export class TunerComponent {
     // Implement logic to change the tuning (e.g., update the displayed notes)
   }
 
-  stopLooping() {
-    for (const note in this.audioFiles) {
-        this.audioFiles[note].loop = false;
-        this.audioFiles[note].pause();
-        this.audioFiles[note].currentTime = 0;
-    }
-}
+  ngOnDestroy() {
+    this.stopCurrentAudio(); // Ensure audio stops when component is destroyed
+  }
 }
