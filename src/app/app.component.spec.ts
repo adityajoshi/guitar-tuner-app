@@ -20,10 +20,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('guitar-tuner-app');
   });
 
-  it('should render title', () => {
+  it('should render tuner component', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, guitar-tuner-app');
+    expect(compiled.querySelector('app-tuner')).toBeTruthy();
   });
 });

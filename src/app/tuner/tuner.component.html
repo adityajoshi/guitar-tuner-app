@@ -5,24 +5,19 @@
     <button [class.active]="tuningMethod === 'byEar'" (click)="setTuningMethod('byEar')">
       <i class="fas fa-headphones"></i> Tuning By Ear
     </button>
-    <!-- <button [class.active]="tuningMethod === 'auto'" (click)="setTuningMethod('auto')">
-      <i class="fas fa-microphone"></i> Auto
-    </button> -->
   </div>
 
   <div class="note-buttons-linear">
-    <div class="note-buttons-linear">
-      <div *ngFor="let note of notes" class="note-container">
-        <button class="note-button"
-                [class.active]="selectedNote === note"
-                (click)="selectNote(note)">
-          {{ note }}
-        </button>
-      </div>
-    </div>
+    <button *ngFor="let note of notes"
+            class="note-button"
+            [class.active]="selectedNote === note"
+            (click)="selectNote(note)">
+      {{ note }}
+    </button>
   </div>
 
   <div class="tuning-selection">
-    <label for="tuning">Selected Tuning</label>
-    <span id="tuning" class="tuning-display">Standard Tuning</span>  </div>
+    <div class="tuning-label">Selected Tuning</div>
+    <span class="tuning-display">Standard Tuning</span>
+  </div>
 </div>
