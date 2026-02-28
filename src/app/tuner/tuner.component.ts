@@ -25,7 +25,9 @@ export class TunerComponent implements OnDestroy {
   private loadAudioFiles() {
     this.notes.forEach(note => {
       const filename = note === 'e' ? 'high_e' : note;
-      this.audioFiles[note] = new Audio(`assets/${filename}.ogg`);
+      const audio = new Audio(`assets/${filename}.ogg`);
+      audio.preload = 'auto';
+      this.audioFiles[note] = audio;
     });
   }
 
@@ -50,6 +52,10 @@ export class TunerComponent implements OnDestroy {
     this.selectedNote = note;
 
     const onEnded = () => {
+      if (this.currentAudio !== audio) {
+        return;
+      }
+
       this.selectedNote = '';
       this.currentAudio = null;
       this.currentAudioListener = null;
@@ -61,7 +67,11 @@ export class TunerComponent implements OnDestroy {
     audio.currentTime = 0; // Reset to start
     audio.play().catch(error => {
       console.error('Error playing sound:', error);
-      this.stopCurrentAudio(); // Reset on error
+
+      // Avoid stopping a newer note if this promise rejects after another click.
+      if (this.currentAudio === audio) {
+        this.stopCurrentAudio(); // Reset on error
+      }
     });
   }
 
